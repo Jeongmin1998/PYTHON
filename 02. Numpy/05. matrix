@@ -1,0 +1,577 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "[실습]Ch06.numpy - 10~12.행렬.ipynb",
+      "provenance": [],
+      "collapsed_sections": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "U7s6AtWoNKFW"
+      },
+      "source": [
+        "import numpy as np"
+      ],
+      "execution_count": 1,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "liZawn_KDfTP"
+      },
+      "source": [
+        "# Matrix\r\n",
+        "\r\n",
+        "중요한 이유: 엑셀 시트의 매출액 합하는 등 연산할 때"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "J-4ydWDzNURb"
+      },
+      "source": [
+        "## 1. 행렬 - 덧셈\r\n",
+        "\r\n",
+        "- shape이 같아야 함\r\n",
+        "- 같은 position끼리 연산"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "3-0o_diBmzgD"
+      },
+      "source": [
+        "### 1-1. 덧셈"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Lh3y_RbfiPni"
+      },
+      "source": [
+        "a = np.array([[1, 2, 3], \n",
+        "              [2, 3, 4]])"
+      ],
+      "execution_count": 4,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "vd3Iw_g-iV-X"
+      },
+      "source": [
+        "b = np.array([[3, 4, 5], \n",
+        "              [1, 2, 3]])"
+      ],
+      "execution_count": 5,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "X4yUimJnipFS",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "40803d1a-dc06-46e7-c3f2-130c9bcef95c"
+      },
+      "source": [
+        "a+b"
+      ],
+      "execution_count": 6,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([[4, 6, 8],\n",
+              "       [3, 5, 7]])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 6
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "CAUnCt2AiqC8"
+      },
+      "source": [
+        "a = np.array([[1, 2, 3], \n",
+        "              [2, 3, 4]])"
+      ],
+      "execution_count": 7,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "SlM2GcNXi2f9"
+      },
+      "source": [
+        "b = np.array([[1, 2],\n",
+        "              [3, 4],  \n",
+        "              [5, 6]])"
+      ],
+      "execution_count": 8,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Q-igN6O8i_HX",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 170
+        },
+        "outputId": "b74a59ce-e284-42d5-fda8-7cff01abda0e"
+      },
+      "source": [
+        "a + b #shape이 같아야 함!"
+      ],
+      "execution_count": 10,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "ValueError",
+          "evalue": "ignored",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mValueError\u001b[0m                                Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-10-f91b0bbb0af1>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0ma\u001b[0m \u001b[0;34m+\u001b[0m \u001b[0mb\u001b[0m \u001b[0;31m#shape이 같아야 함!\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+            "\u001b[0;31mValueError\u001b[0m: operands could not be broadcast together with shapes (2,3) (3,2) "
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "E3vTxFshmwWE"
+      },
+      "source": [
+        "### 1-2. Sum"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "bqPASSvum5wg"
+      },
+      "source": [
+        "a = np.array([[1, 2, 3], \n",
+        "              [2, 3, 4]])"
+      ],
+      "execution_count": 11,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "jeoEBHLdjYug",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "e035c6b1-812a-49a2-cb43-7033310545ee"
+      },
+      "source": [
+        "np.sum(a, axis=0)"
+      ],
+      "execution_count": 13,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([3, 5, 7])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 13
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "eQWg_pktjY3O",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "70b17226-2c78-4d3a-fd10-70e0ec8a9ff1"
+      },
+      "source": [
+        "np.sum(a, axis=1)"
+      ],
+      "execution_count": 15,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([6, 9])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 15
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "2i5mj3kPitwV"
+      },
+      "source": [
+        "## 2. 행렬 - 뺄셈"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "KQ5__Wapit2B"
+      },
+      "source": [
+        "a = np.array([[1, 2, 3], \n",
+        "              [2, 3, 4]])"
+      ],
+      "execution_count": 16,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "WaQM8NF_ixTx"
+      },
+      "source": [
+        "b = np.array([[3, 4, 5], \n",
+        "              [1, 2, 3]])"
+      ],
+      "execution_count": 17,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "2G9YGVpviyvI",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "3e4c7f3b-82ee-430e-f419-cb711093a81b"
+      },
+      "source": [
+        "a-b"
+      ],
+      "execution_count": 18,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([[-2, -2, -2],\n",
+              "       [ 1,  1,  1]])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 18
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "emOen6CKizae"
+      },
+      "source": [
+        "a = np.array([[1, 2, 3], \n",
+        "              [2, 3, 4]])"
+      ],
+      "execution_count": 19,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "FigY31D3jKIr"
+      },
+      "source": [
+        "b = np.array([[1, 2],\n",
+        "              [3, 4],  \n",
+        "              [5, 6]])"
+      ],
+      "execution_count": 20,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "WtLrPvkejNYy"
+      },
+      "source": [
+        "## 3. 곱셈\r\n",
+        "\r\n",
+        "- 맞닿는 shape이 같아야함"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "8nS0zT3iawVm"
+      },
+      "source": [
+        "일반 곱셈: 같은 position에 있는 값끼리 곱하기 (영업이익끼리, ...)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "c77DVAVhjXU7"
+      },
+      "source": [
+        "a = np.array([[1, 2, 3], \n",
+        "              [2, 3, 4]])"
+      ],
+      "execution_count": 22,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "odd96IHRYewH"
+      },
+      "source": [
+        "b = np.array([[3, 4, 5], \n",
+        "              [1, 2, 3]])"
+      ],
+      "execution_count": 23,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "BjqbDFGKYf_9",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "a85ba542-1ecb-41f6-8609-1e491f7a45d3"
+      },
+      "source": [
+        "a.shape, b.shape"
+      ],
+      "execution_count": 24,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "((2, 3), (2, 3))"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 24
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "RZzSCNDDYlFU",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "6edc35c9-40d0-4a1d-98ad-b98967f6641d"
+      },
+      "source": [
+        "a*b"
+      ],
+      "execution_count": 25,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([[ 3,  8, 15],\n",
+              "       [ 2,  6, 12]])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 25
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "LsHFs8ztapqx"
+      },
+      "source": [
+        "단순 곱셈과 dot product는 다름: 맞닿는 shape이 동일할 때"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "CmNwxLQ9aoCb"
+      },
+      "source": [
+        "a = np.array([[1, 2, 3], \n",
+        "              [2, 3, 4]])"
+      ],
+      "execution_count": 30,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "hdiVhVBycCDF"
+      },
+      "source": [
+        "b = np.array([[3, 4, 5], \n",
+        "              [1, 2, 3]])"
+      ],
+      "execution_count": 31,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "qRaVZEkTkvY-",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "7a3a29e4-feb5-4933-8bd4-2d1d60a274a6"
+      },
+      "source": [
+        "a * b"
+      ],
+      "execution_count": 32,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([[ 3,  8, 15],\n",
+              "       [ 2,  6, 12]])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 32
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "IjLq85LZcaAw"
+      },
+      "source": [
+        "a = np.array([[1, 2, 3],\n",
+        "              [1, 2, 3], \n",
+        "              [2, 3, 4]])"
+      ],
+      "execution_count": 33,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "yjMc_ChccZ5O"
+      },
+      "source": [
+        "b = np.array([[1, 2],\n",
+        "              [3, 4],  \n",
+        "              [5, 6]])"
+      ],
+      "execution_count": 34,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "HfG4xgYpcZkr",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "cbdf2216-7663-4e8a-e4f4-005b63290980"
+      },
+      "source": [
+        "a.shape, b.shape"
+      ],
+      "execution_count": 35,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "((3, 3), (3, 2))"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 35
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "EP3l6ATCkF53",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "1fc3b124-c025-4699-a0e0-abcdc3e70955"
+      },
+      "source": [
+        "np.dot(a,b)"
+      ],
+      "execution_count": 36,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([[22, 28],\n",
+              "       [22, 28],\n",
+              "       [31, 40]])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 36
+        }
+      ]
+    }
+  ]
+}
