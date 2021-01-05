@@ -1,0 +1,4568 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "[실습]Ch01.pandas - 10~15.복사~인덱스.ipynb",
+      "provenance": [],
+      "collapsed_sections": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "wn5bqJ9PYkYK"
+      },
+      "source": [
+        "import pandas as pd"
+      ],
+      "execution_count": 3,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "aozei8JpYmNC"
+      },
+      "source": [
+        "## 실습에 활용한 예제"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "h9_3_cuwYpIy"
+      },
+      "source": [
+        "[국내 아이돌 평판지수 (csv)](http://bit.ly/ds-korean-idol)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "5q11zenIY6eq"
+      },
+      "source": [
+        "## DataFrame 로드"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "whW8jFpvYfEC"
+      },
+      "source": [
+        "df = pd.read_csv('https://bit.ly/ds-korean-idol')"
+      ],
+      "execution_count": 4,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "CMCICIVbdciN"
+      },
+      "source": [
+        "## 1. copy (복사)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "5k94J53odcTo",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 197
+        },
+        "outputId": "a3e5aebc-6eee-41ed-d942-d2d978ceb8e9"
+      },
+      "source": [
+        "df.head()"
+      ],
+      "execution_count": 5,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>이름</th>\n",
+              "      <th>그룹</th>\n",
+              "      <th>소속사</th>\n",
+              "      <th>성별</th>\n",
+              "      <th>생년월일</th>\n",
+              "      <th>키</th>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>지민</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-10-13</td>\n",
+              "      <td>173.6</td>\n",
+              "      <td>A</td>\n",
+              "      <td>10523260</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>지드래곤</td>\n",
+              "      <td>빅뱅</td>\n",
+              "      <td>YG</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1988-08-18</td>\n",
+              "      <td>177.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>9916947</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>강다니엘</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>커넥트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1996-12-10</td>\n",
+              "      <td>180.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>8273745</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>뷔</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-12-30</td>\n",
+              "      <td>178.0</td>\n",
+              "      <td>AB</td>\n",
+              "      <td>8073501</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>화사</td>\n",
+              "      <td>마마무</td>\n",
+              "      <td>RBW</td>\n",
+              "      <td>여자</td>\n",
+              "      <td>1995-07-23</td>\n",
+              "      <td>162.1</td>\n",
+              "      <td>A</td>\n",
+              "      <td>7650928</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "     이름     그룹  소속사  성별        생년월일      키 혈액형   브랜드평판지수\n",
+              "0    지민  방탄소년단  빅히트  남자  1995-10-13  173.6   A  10523260\n",
+              "1  지드래곤     빅뱅   YG  남자  1988-08-18  177.0   A   9916947\n",
+              "2  강다니엘    NaN  커넥트  남자  1996-12-10  180.0   A   8273745\n",
+              "3     뷔  방탄소년단  빅히트  남자  1995-12-30  178.0  AB   8073501\n",
+              "4    화사    마마무  RBW  여자  1995-07-23  162.1   A   7650928"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 5
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "aARnn4PXeFCT"
+      },
+      "source": [
+        "\r\n",
+        "df를 **새로운 변수(new_df)에 대입**해 주고, 새로운 변수에서 값을 바꾼다면, 원래의 DataFrame의 값은 어떻게 될까"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "5VQPZIFhdr8_"
+      },
+      "source": [
+        "new_df = df"
+      ],
+      "execution_count": 6,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Qx4qot3FJSGI",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 197
+        },
+        "outputId": "5569067a-6937-485a-db19-b7b4686baf3a"
+      },
+      "source": [
+        "new_df.head()"
+      ],
+      "execution_count": 7,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>이름</th>\n",
+              "      <th>그룹</th>\n",
+              "      <th>소속사</th>\n",
+              "      <th>성별</th>\n",
+              "      <th>생년월일</th>\n",
+              "      <th>키</th>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>지민</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-10-13</td>\n",
+              "      <td>173.6</td>\n",
+              "      <td>A</td>\n",
+              "      <td>10523260</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>지드래곤</td>\n",
+              "      <td>빅뱅</td>\n",
+              "      <td>YG</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1988-08-18</td>\n",
+              "      <td>177.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>9916947</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>강다니엘</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>커넥트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1996-12-10</td>\n",
+              "      <td>180.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>8273745</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>뷔</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-12-30</td>\n",
+              "      <td>178.0</td>\n",
+              "      <td>AB</td>\n",
+              "      <td>8073501</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>화사</td>\n",
+              "      <td>마마무</td>\n",
+              "      <td>RBW</td>\n",
+              "      <td>여자</td>\n",
+              "      <td>1995-07-23</td>\n",
+              "      <td>162.1</td>\n",
+              "      <td>A</td>\n",
+              "      <td>7650928</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "     이름     그룹  소속사  성별        생년월일      키 혈액형   브랜드평판지수\n",
+              "0    지민  방탄소년단  빅히트  남자  1995-10-13  173.6   A  10523260\n",
+              "1  지드래곤     빅뱅   YG  남자  1988-08-18  177.0   A   9916947\n",
+              "2  강다니엘    NaN  커넥트  남자  1996-12-10  180.0   A   8273745\n",
+              "3     뷔  방탄소년단  빅히트  남자  1995-12-30  178.0  AB   8073501\n",
+              "4    화사    마마무  RBW  여자  1995-07-23  162.1   A   7650928"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 7
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "kMFsdxY0dr3s"
+      },
+      "source": [
+        "new_df['이름'] = 0"
+      ],
+      "execution_count": 8,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "8AJDB7H1JYB2",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 197
+        },
+        "outputId": "dc7eeba4-4905-447c-900c-9bd77567cb67"
+      },
+      "source": [
+        "new_df.head()"
+      ],
+      "execution_count": 9,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>이름</th>\n",
+              "      <th>그룹</th>\n",
+              "      <th>소속사</th>\n",
+              "      <th>성별</th>\n",
+              "      <th>생년월일</th>\n",
+              "      <th>키</th>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>0</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-10-13</td>\n",
+              "      <td>173.6</td>\n",
+              "      <td>A</td>\n",
+              "      <td>10523260</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>0</td>\n",
+              "      <td>빅뱅</td>\n",
+              "      <td>YG</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1988-08-18</td>\n",
+              "      <td>177.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>9916947</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>0</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>커넥트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1996-12-10</td>\n",
+              "      <td>180.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>8273745</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>0</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-12-30</td>\n",
+              "      <td>178.0</td>\n",
+              "      <td>AB</td>\n",
+              "      <td>8073501</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>0</td>\n",
+              "      <td>마마무</td>\n",
+              "      <td>RBW</td>\n",
+              "      <td>여자</td>\n",
+              "      <td>1995-07-23</td>\n",
+              "      <td>162.1</td>\n",
+              "      <td>A</td>\n",
+              "      <td>7650928</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "   이름     그룹  소속사  성별        생년월일      키 혈액형   브랜드평판지수\n",
+              "0   0  방탄소년단  빅히트  남자  1995-10-13  173.6   A  10523260\n",
+              "1   0     빅뱅   YG  남자  1988-08-18  177.0   A   9916947\n",
+              "2   0    NaN  커넥트  남자  1996-12-10  180.0   A   8273745\n",
+              "3   0  방탄소년단  빅히트  남자  1995-12-30  178.0  AB   8073501\n",
+              "4   0    마마무  RBW  여자  1995-07-23  162.1   A   7650928"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 9
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Diyfc9jdd1DT",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 197
+        },
+        "outputId": "69cd5587-dd34-4af2-ad09-09d8082ce6dd"
+      },
+      "source": [
+        "df.head()"
+      ],
+      "execution_count": 10,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>이름</th>\n",
+              "      <th>그룹</th>\n",
+              "      <th>소속사</th>\n",
+              "      <th>성별</th>\n",
+              "      <th>생년월일</th>\n",
+              "      <th>키</th>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>0</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-10-13</td>\n",
+              "      <td>173.6</td>\n",
+              "      <td>A</td>\n",
+              "      <td>10523260</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>0</td>\n",
+              "      <td>빅뱅</td>\n",
+              "      <td>YG</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1988-08-18</td>\n",
+              "      <td>177.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>9916947</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>0</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>커넥트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1996-12-10</td>\n",
+              "      <td>180.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>8273745</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>0</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-12-30</td>\n",
+              "      <td>178.0</td>\n",
+              "      <td>AB</td>\n",
+              "      <td>8073501</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>0</td>\n",
+              "      <td>마마무</td>\n",
+              "      <td>RBW</td>\n",
+              "      <td>여자</td>\n",
+              "      <td>1995-07-23</td>\n",
+              "      <td>162.1</td>\n",
+              "      <td>A</td>\n",
+              "      <td>7650928</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "   이름     그룹  소속사  성별        생년월일      키 혈액형   브랜드평판지수\n",
+              "0   0  방탄소년단  빅히트  남자  1995-10-13  173.6   A  10523260\n",
+              "1   0     빅뱅   YG  남자  1988-08-18  177.0   A   9916947\n",
+              "2   0    NaN  커넥트  남자  1996-12-10  180.0   A   8273745\n",
+              "3   0  방탄소년단  빅히트  남자  1995-12-30  178.0  AB   8073501\n",
+              "4   0    마마무  RBW  여자  1995-07-23  162.1   A   7650928"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 10
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "cUTGBAFVd09Z"
+      },
+      "source": [
+        "이렇게 되는 이유는 같은 메모리 주소를 참조하기 때문임."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "37cgGdsPeaFU",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 34
+        },
+        "outputId": "5048a960-f967-4a14-ea94-6ee939a8d7b2"
+      },
+      "source": [
+        "\r\n",
+        "hex(id(new_df))"
+      ],
+      "execution_count": 12,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "application/vnd.google.colaboratory.intrinsic+json": {
+              "type": "string"
+            },
+            "text/plain": [
+              "'0x7f6706e9deb8'"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 12
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "tHf3ok8jd03k",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 34
+        },
+        "outputId": "f4c006c0-a384-4823-a8c3-aaf1323792d8"
+      },
+      "source": [
+        "\r\n",
+        "hex(id(df))"
+      ],
+      "execution_count": 13,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "application/vnd.google.colaboratory.intrinsic+json": {
+              "type": "string"
+            },
+            "text/plain": [
+              "'0x7f6706e9deb8'"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 13
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "kB9w_6ZDdcNS"
+      },
+      "source": [
+        "실수가 잦은 부분\n",
+        "\n",
+        "**원본 데이터를 유지 시키고, 새로운 변수에 복사할 때는 copy()를 사용해야 함**"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "35dDWJFce5aY"
+      },
+      "source": [
+        "df = pd.read_csv('https://bit.ly/ds-korean-idol')"
+      ],
+      "execution_count": 14,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Fis_cBXre13k"
+      },
+      "source": [
+        "copy_df = df.copy()"
+      ],
+      "execution_count": 15,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "DyWwUyGXe8iH",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 34
+        },
+        "outputId": "26c5f13d-89f2-4034-f978-a1b16122df9d"
+      },
+      "source": [
+        "hex(id(df))"
+      ],
+      "execution_count": 16,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "application/vnd.google.colaboratory.intrinsic+json": {
+              "type": "string"
+            },
+            "text/plain": [
+              "'0x7f6706a53cc0'"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 16
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "wGb1wL4Ye8b_",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 34
+        },
+        "outputId": "6ddc53e4-1eb1-404e-831a-54a0f9a69968"
+      },
+      "source": [
+        "hex(id(copy_df)) #다른 주소!"
+      ],
+      "execution_count": 17,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "application/vnd.google.colaboratory.intrinsic+json": {
+              "type": "string"
+            },
+            "text/plain": [
+              "'0x7f6706a53978'"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 17
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "1vc5_iYcfDl4",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 197
+        },
+        "outputId": "ec6b0916-cca2-431d-d44d-699cba2893c1"
+      },
+      "source": [
+        "df.head()"
+      ],
+      "execution_count": 18,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>이름</th>\n",
+              "      <th>그룹</th>\n",
+              "      <th>소속사</th>\n",
+              "      <th>성별</th>\n",
+              "      <th>생년월일</th>\n",
+              "      <th>키</th>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>지민</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-10-13</td>\n",
+              "      <td>173.6</td>\n",
+              "      <td>A</td>\n",
+              "      <td>10523260</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>지드래곤</td>\n",
+              "      <td>빅뱅</td>\n",
+              "      <td>YG</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1988-08-18</td>\n",
+              "      <td>177.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>9916947</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>강다니엘</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>커넥트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1996-12-10</td>\n",
+              "      <td>180.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>8273745</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>뷔</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-12-30</td>\n",
+              "      <td>178.0</td>\n",
+              "      <td>AB</td>\n",
+              "      <td>8073501</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>화사</td>\n",
+              "      <td>마마무</td>\n",
+              "      <td>RBW</td>\n",
+              "      <td>여자</td>\n",
+              "      <td>1995-07-23</td>\n",
+              "      <td>162.1</td>\n",
+              "      <td>A</td>\n",
+              "      <td>7650928</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "     이름     그룹  소속사  성별        생년월일      키 혈액형   브랜드평판지수\n",
+              "0    지민  방탄소년단  빅히트  남자  1995-10-13  173.6   A  10523260\n",
+              "1  지드래곤     빅뱅   YG  남자  1988-08-18  177.0   A   9916947\n",
+              "2  강다니엘    NaN  커넥트  남자  1996-12-10  180.0   A   8273745\n",
+              "3     뷔  방탄소년단  빅히트  남자  1995-12-30  178.0  AB   8073501\n",
+              "4    화사    마마무  RBW  여자  1995-07-23  162.1   A   7650928"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 18
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "BfTd748CfG54"
+      },
+      "source": [
+        "copy_df['이름'] = 0"
+      ],
+      "execution_count": 19,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "v4WcTyGmfG0r",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 197
+        },
+        "outputId": "73deb130-cf51-496c-9b8f-2624509ece90"
+      },
+      "source": [
+        "copy_df.head()"
+      ],
+      "execution_count": 20,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>이름</th>\n",
+              "      <th>그룹</th>\n",
+              "      <th>소속사</th>\n",
+              "      <th>성별</th>\n",
+              "      <th>생년월일</th>\n",
+              "      <th>키</th>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>0</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-10-13</td>\n",
+              "      <td>173.6</td>\n",
+              "      <td>A</td>\n",
+              "      <td>10523260</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>0</td>\n",
+              "      <td>빅뱅</td>\n",
+              "      <td>YG</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1988-08-18</td>\n",
+              "      <td>177.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>9916947</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>0</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>커넥트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1996-12-10</td>\n",
+              "      <td>180.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>8273745</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>0</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-12-30</td>\n",
+              "      <td>178.0</td>\n",
+              "      <td>AB</td>\n",
+              "      <td>8073501</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>0</td>\n",
+              "      <td>마마무</td>\n",
+              "      <td>RBW</td>\n",
+              "      <td>여자</td>\n",
+              "      <td>1995-07-23</td>\n",
+              "      <td>162.1</td>\n",
+              "      <td>A</td>\n",
+              "      <td>7650928</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "   이름     그룹  소속사  성별        생년월일      키 혈액형   브랜드평판지수\n",
+              "0   0  방탄소년단  빅히트  남자  1995-10-13  173.6   A  10523260\n",
+              "1   0     빅뱅   YG  남자  1988-08-18  177.0   A   9916947\n",
+              "2   0    NaN  커넥트  남자  1996-12-10  180.0   A   8273745\n",
+              "3   0  방탄소년단  빅히트  남자  1995-12-30  178.0  AB   8073501\n",
+              "4   0    마마무  RBW  여자  1995-07-23  162.1   A   7650928"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 20
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "rRjgO0UUdbnO",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 197
+        },
+        "outputId": "1800fb8a-002b-4bfc-9b82-2d26cccde972"
+      },
+      "source": [
+        "df.head() #원본 데이터 변화 없음"
+      ],
+      "execution_count": 21,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>이름</th>\n",
+              "      <th>그룹</th>\n",
+              "      <th>소속사</th>\n",
+              "      <th>성별</th>\n",
+              "      <th>생년월일</th>\n",
+              "      <th>키</th>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>지민</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-10-13</td>\n",
+              "      <td>173.6</td>\n",
+              "      <td>A</td>\n",
+              "      <td>10523260</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>지드래곤</td>\n",
+              "      <td>빅뱅</td>\n",
+              "      <td>YG</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1988-08-18</td>\n",
+              "      <td>177.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>9916947</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>강다니엘</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>커넥트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1996-12-10</td>\n",
+              "      <td>180.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>8273745</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>뷔</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-12-30</td>\n",
+              "      <td>178.0</td>\n",
+              "      <td>AB</td>\n",
+              "      <td>8073501</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>화사</td>\n",
+              "      <td>마마무</td>\n",
+              "      <td>RBW</td>\n",
+              "      <td>여자</td>\n",
+              "      <td>1995-07-23</td>\n",
+              "      <td>162.1</td>\n",
+              "      <td>A</td>\n",
+              "      <td>7650928</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "     이름     그룹  소속사  성별        생년월일      키 혈액형   브랜드평판지수\n",
+              "0    지민  방탄소년단  빅히트  남자  1995-10-13  173.6   A  10523260\n",
+              "1  지드래곤     빅뱅   YG  남자  1988-08-18  177.0   A   9916947\n",
+              "2  강다니엘    NaN  커넥트  남자  1996-12-10  180.0   A   8273745\n",
+              "3     뷔  방탄소년단  빅히트  남자  1995-12-30  178.0  AB   8073501\n",
+              "4    화사    마마무  RBW  여자  1995-07-23  162.1   A   7650928"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 21
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "9R1oTsR8fQiz"
+      },
+      "source": [
+        "## 2. row, column 추가 및 삭제\r\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "RqNOMOYlhTLv"
+      },
+      "source": [
+        "### 2-1. row의 추가"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "D7JjRZLffQp2",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 197
+        },
+        "outputId": "a1210af6-7a9e-44e6-8b21-ab6771daca14"
+      },
+      "source": [
+        "df.head()"
+      ],
+      "execution_count": 22,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>이름</th>\n",
+              "      <th>그룹</th>\n",
+              "      <th>소속사</th>\n",
+              "      <th>성별</th>\n",
+              "      <th>생년월일</th>\n",
+              "      <th>키</th>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>지민</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-10-13</td>\n",
+              "      <td>173.6</td>\n",
+              "      <td>A</td>\n",
+              "      <td>10523260</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>지드래곤</td>\n",
+              "      <td>빅뱅</td>\n",
+              "      <td>YG</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1988-08-18</td>\n",
+              "      <td>177.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>9916947</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>강다니엘</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>커넥트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1996-12-10</td>\n",
+              "      <td>180.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>8273745</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>뷔</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-12-30</td>\n",
+              "      <td>178.0</td>\n",
+              "      <td>AB</td>\n",
+              "      <td>8073501</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>화사</td>\n",
+              "      <td>마마무</td>\n",
+              "      <td>RBW</td>\n",
+              "      <td>여자</td>\n",
+              "      <td>1995-07-23</td>\n",
+              "      <td>162.1</td>\n",
+              "      <td>A</td>\n",
+              "      <td>7650928</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "     이름     그룹  소속사  성별        생년월일      키 혈액형   브랜드평판지수\n",
+              "0    지민  방탄소년단  빅히트  남자  1995-10-13  173.6   A  10523260\n",
+              "1  지드래곤     빅뱅   YG  남자  1988-08-18  177.0   A   9916947\n",
+              "2  강다니엘    NaN  커넥트  남자  1996-12-10  180.0   A   8273745\n",
+              "3     뷔  방탄소년단  빅히트  남자  1995-12-30  178.0  AB   8073501\n",
+              "4    화사    마마무  RBW  여자  1995-07-23  162.1   A   7650928"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 22
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Y1R4SZEOgrUz"
+      },
+      "source": [
+        "dictionary 형태의 데이터를 만들어 준다음 **append()** 함수를 사용하여 데이터를 추가할 수 있음. 반드시, **ignore_index=True** 옵션을 같이 추가해야 에러가 안남"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "OFn8MJb8fQli",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 527
+        },
+        "outputId": "5ab74fe0-6eca-4e3d-82cc-2f3b5ee5887e"
+      },
+      "source": [
+        "df.append({'이름': '김정민', '그룹': '정민그룹', '소속사': '끝내주는소속사', '성별': '여자', '생년월일': '1998-05-08', '키': 160.0, '혈액형': 'A', '브랜드평판지수': 12345678}, ignore_index=True)"
+      ],
+      "execution_count": 23,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>이름</th>\n",
+              "      <th>그룹</th>\n",
+              "      <th>소속사</th>\n",
+              "      <th>성별</th>\n",
+              "      <th>생년월일</th>\n",
+              "      <th>키</th>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>지민</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-10-13</td>\n",
+              "      <td>173.6</td>\n",
+              "      <td>A</td>\n",
+              "      <td>10523260</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>지드래곤</td>\n",
+              "      <td>빅뱅</td>\n",
+              "      <td>YG</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1988-08-18</td>\n",
+              "      <td>177.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>9916947</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>강다니엘</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>커넥트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1996-12-10</td>\n",
+              "      <td>180.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>8273745</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>뷔</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-12-30</td>\n",
+              "      <td>178.0</td>\n",
+              "      <td>AB</td>\n",
+              "      <td>8073501</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>화사</td>\n",
+              "      <td>마마무</td>\n",
+              "      <td>RBW</td>\n",
+              "      <td>여자</td>\n",
+              "      <td>1995-07-23</td>\n",
+              "      <td>162.1</td>\n",
+              "      <td>A</td>\n",
+              "      <td>7650928</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>5</th>\n",
+              "      <td>정국</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1997-09-01</td>\n",
+              "      <td>178.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>5208335</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>6</th>\n",
+              "      <td>민현</td>\n",
+              "      <td>뉴이스트</td>\n",
+              "      <td>플레디스</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-08-09</td>\n",
+              "      <td>182.3</td>\n",
+              "      <td>O</td>\n",
+              "      <td>4989792</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>7</th>\n",
+              "      <td>소연</td>\n",
+              "      <td>아이들</td>\n",
+              "      <td>큐브</td>\n",
+              "      <td>여자</td>\n",
+              "      <td>1998-08-26</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>B</td>\n",
+              "      <td>4668615</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>8</th>\n",
+              "      <td>진</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1992-12-04</td>\n",
+              "      <td>179.2</td>\n",
+              "      <td>O</td>\n",
+              "      <td>4570308</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>9</th>\n",
+              "      <td>하성운</td>\n",
+              "      <td>핫샷</td>\n",
+              "      <td>스타크루이엔티</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1994-03-22</td>\n",
+              "      <td>167.1</td>\n",
+              "      <td>A</td>\n",
+              "      <td>4036489</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>10</th>\n",
+              "      <td>태연</td>\n",
+              "      <td>소녀시대</td>\n",
+              "      <td>SM</td>\n",
+              "      <td>여자</td>\n",
+              "      <td>1989-03-09</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>A</td>\n",
+              "      <td>3918661</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>11</th>\n",
+              "      <td>차은우</td>\n",
+              "      <td>아스트로</td>\n",
+              "      <td>판타지오</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1997-03-30</td>\n",
+              "      <td>183.0</td>\n",
+              "      <td>B</td>\n",
+              "      <td>3506027</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>12</th>\n",
+              "      <td>백호</td>\n",
+              "      <td>뉴이스트</td>\n",
+              "      <td>플레디스</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-07-21</td>\n",
+              "      <td>175.0</td>\n",
+              "      <td>AB</td>\n",
+              "      <td>3301654</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>13</th>\n",
+              "      <td>JR</td>\n",
+              "      <td>뉴이스트</td>\n",
+              "      <td>플레디스</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-06-08</td>\n",
+              "      <td>176.0</td>\n",
+              "      <td>O</td>\n",
+              "      <td>3274137</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>14</th>\n",
+              "      <td>슈가</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1993-03-09</td>\n",
+              "      <td>174.0</td>\n",
+              "      <td>O</td>\n",
+              "      <td>2925442</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>15</th>\n",
+              "      <td>김정민</td>\n",
+              "      <td>정민그룹</td>\n",
+              "      <td>끝내주는소속사</td>\n",
+              "      <td>여자</td>\n",
+              "      <td>1998-05-08</td>\n",
+              "      <td>160.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>12345678</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "      이름     그룹      소속사  성별        생년월일      키 혈액형   브랜드평판지수\n",
+              "0     지민  방탄소년단      빅히트  남자  1995-10-13  173.6   A  10523260\n",
+              "1   지드래곤     빅뱅       YG  남자  1988-08-18  177.0   A   9916947\n",
+              "2   강다니엘    NaN      커넥트  남자  1996-12-10  180.0   A   8273745\n",
+              "3      뷔  방탄소년단      빅히트  남자  1995-12-30  178.0  AB   8073501\n",
+              "4     화사    마마무      RBW  여자  1995-07-23  162.1   A   7650928\n",
+              "5     정국  방탄소년단      빅히트  남자  1997-09-01  178.0   A   5208335\n",
+              "6     민현   뉴이스트     플레디스  남자  1995-08-09  182.3   O   4989792\n",
+              "7     소연    아이들       큐브  여자  1998-08-26    NaN   B   4668615\n",
+              "8      진  방탄소년단      빅히트  남자  1992-12-04  179.2   O   4570308\n",
+              "9    하성운     핫샷  스타크루이엔티  남자  1994-03-22  167.1   A   4036489\n",
+              "10    태연   소녀시대       SM  여자  1989-03-09    NaN   A   3918661\n",
+              "11   차은우   아스트로     판타지오  남자  1997-03-30  183.0   B   3506027\n",
+              "12    백호   뉴이스트     플레디스  남자  1995-07-21  175.0  AB   3301654\n",
+              "13    JR   뉴이스트     플레디스  남자  1995-06-08  176.0   O   3274137\n",
+              "14    슈가  방탄소년단      빅히트  남자  1993-03-09  174.0   O   2925442\n",
+              "15   김정민   정민그룹  끝내주는소속사  여자  1998-05-08  160.0   A  12345678"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 23
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "NA_xQxkTgMq4",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 197
+        },
+        "outputId": "31965361-c263-4cc9-8965-bdd0ddbb6514"
+      },
+      "source": [
+        "df.tail() #반영 안됨"
+      ],
+      "execution_count": 24,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>이름</th>\n",
+              "      <th>그룹</th>\n",
+              "      <th>소속사</th>\n",
+              "      <th>성별</th>\n",
+              "      <th>생년월일</th>\n",
+              "      <th>키</th>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>10</th>\n",
+              "      <td>태연</td>\n",
+              "      <td>소녀시대</td>\n",
+              "      <td>SM</td>\n",
+              "      <td>여자</td>\n",
+              "      <td>1989-03-09</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>A</td>\n",
+              "      <td>3918661</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>11</th>\n",
+              "      <td>차은우</td>\n",
+              "      <td>아스트로</td>\n",
+              "      <td>판타지오</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1997-03-30</td>\n",
+              "      <td>183.0</td>\n",
+              "      <td>B</td>\n",
+              "      <td>3506027</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>12</th>\n",
+              "      <td>백호</td>\n",
+              "      <td>뉴이스트</td>\n",
+              "      <td>플레디스</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-07-21</td>\n",
+              "      <td>175.0</td>\n",
+              "      <td>AB</td>\n",
+              "      <td>3301654</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>13</th>\n",
+              "      <td>JR</td>\n",
+              "      <td>뉴이스트</td>\n",
+              "      <td>플레디스</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-06-08</td>\n",
+              "      <td>176.0</td>\n",
+              "      <td>O</td>\n",
+              "      <td>3274137</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>14</th>\n",
+              "      <td>슈가</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1993-03-09</td>\n",
+              "      <td>174.0</td>\n",
+              "      <td>O</td>\n",
+              "      <td>2925442</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "     이름     그룹   소속사  성별        생년월일      키 혈액형  브랜드평판지수\n",
+              "10   태연   소녀시대    SM  여자  1989-03-09    NaN   A  3918661\n",
+              "11  차은우   아스트로  판타지오  남자  1997-03-30  183.0   B  3506027\n",
+              "12   백호   뉴이스트  플레디스  남자  1995-07-21  175.0  AB  3301654\n",
+              "13   JR   뉴이스트  플레디스  남자  1995-06-08  176.0   O  3274137\n",
+              "14   슈가  방탄소년단   빅히트  남자  1993-03-09  174.0   O  2925442"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 24
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "4QpzB2LyhHKt"
+      },
+      "source": [
+        "또한, append() 한 뒤 다시 df에 대입해줘야 변경한 값이 유지"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "gOdzjbWpg8Fw"
+      },
+      "source": [
+        "df =df.append({'이름': '김정민', '그룹': '정민그룹', '소속사': '끝내주는소속사', '성별': '여자', '생년월일': '1998-05-08', '키': 160.0, '혈액형': 'A', '브랜드평판지수': 12345678}, ignore_index=True)"
+      ],
+      "execution_count": 25,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "AdckIZhlhD-H",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 197
+        },
+        "outputId": "007bf158-f283-4aea-f0d2-7e3101a93a11"
+      },
+      "source": [
+        "df.tail()"
+      ],
+      "execution_count": 26,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>이름</th>\n",
+              "      <th>그룹</th>\n",
+              "      <th>소속사</th>\n",
+              "      <th>성별</th>\n",
+              "      <th>생년월일</th>\n",
+              "      <th>키</th>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>11</th>\n",
+              "      <td>차은우</td>\n",
+              "      <td>아스트로</td>\n",
+              "      <td>판타지오</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1997-03-30</td>\n",
+              "      <td>183.0</td>\n",
+              "      <td>B</td>\n",
+              "      <td>3506027</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>12</th>\n",
+              "      <td>백호</td>\n",
+              "      <td>뉴이스트</td>\n",
+              "      <td>플레디스</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-07-21</td>\n",
+              "      <td>175.0</td>\n",
+              "      <td>AB</td>\n",
+              "      <td>3301654</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>13</th>\n",
+              "      <td>JR</td>\n",
+              "      <td>뉴이스트</td>\n",
+              "      <td>플레디스</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-06-08</td>\n",
+              "      <td>176.0</td>\n",
+              "      <td>O</td>\n",
+              "      <td>3274137</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>14</th>\n",
+              "      <td>슈가</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1993-03-09</td>\n",
+              "      <td>174.0</td>\n",
+              "      <td>O</td>\n",
+              "      <td>2925442</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>15</th>\n",
+              "      <td>김정민</td>\n",
+              "      <td>정민그룹</td>\n",
+              "      <td>끝내주는소속사</td>\n",
+              "      <td>여자</td>\n",
+              "      <td>1998-05-08</td>\n",
+              "      <td>160.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>12345678</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "     이름     그룹      소속사  성별        생년월일      키 혈액형   브랜드평판지수\n",
+              "11  차은우   아스트로     판타지오  남자  1997-03-30  183.0   B   3506027\n",
+              "12   백호   뉴이스트     플레디스  남자  1995-07-21  175.0  AB   3301654\n",
+              "13   JR   뉴이스트     플레디스  남자  1995-06-08  176.0   O   3274137\n",
+              "14   슈가  방탄소년단      빅히트  남자  1993-03-09  174.0   O   2925442\n",
+              "15  김정민   정민그룹  끝내주는소속사  여자  1998-05-08  160.0   A  12345678"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 26
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "2zylHZs0hV_B"
+      },
+      "source": [
+        "### 2-2. column 추가"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ZN-AECfzfQSR",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 197
+        },
+        "outputId": "4c4b9535-b501-4ea5-d5d9-69e444ddf940"
+      },
+      "source": [
+        "df.head()"
+      ],
+      "execution_count": 27,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>이름</th>\n",
+              "      <th>그룹</th>\n",
+              "      <th>소속사</th>\n",
+              "      <th>성별</th>\n",
+              "      <th>생년월일</th>\n",
+              "      <th>키</th>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>지민</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-10-13</td>\n",
+              "      <td>173.6</td>\n",
+              "      <td>A</td>\n",
+              "      <td>10523260</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>지드래곤</td>\n",
+              "      <td>빅뱅</td>\n",
+              "      <td>YG</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1988-08-18</td>\n",
+              "      <td>177.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>9916947</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>강다니엘</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>커넥트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1996-12-10</td>\n",
+              "      <td>180.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>8273745</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>뷔</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-12-30</td>\n",
+              "      <td>178.0</td>\n",
+              "      <td>AB</td>\n",
+              "      <td>8073501</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>화사</td>\n",
+              "      <td>마마무</td>\n",
+              "      <td>RBW</td>\n",
+              "      <td>여자</td>\n",
+              "      <td>1995-07-23</td>\n",
+              "      <td>162.1</td>\n",
+              "      <td>A</td>\n",
+              "      <td>7650928</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "     이름     그룹  소속사  성별        생년월일      키 혈액형   브랜드평판지수\n",
+              "0    지민  방탄소년단  빅히트  남자  1995-10-13  173.6   A  10523260\n",
+              "1  지드래곤     빅뱅   YG  남자  1988-08-18  177.0   A   9916947\n",
+              "2  강다니엘    NaN  커넥트  남자  1996-12-10  180.0   A   8273745\n",
+              "3     뷔  방탄소년단  빅히트  남자  1995-12-30  178.0  AB   8073501\n",
+              "4    화사    마마무  RBW  여자  1995-07-23  162.1   A   7650928"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 27
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ixNe4mnCLVr_"
+      },
+      "source": [
+        "df['국적'] = '대한민국'\n"
+      ],
+      "execution_count": 28,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "R11rCl34hoF3",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 197
+        },
+        "outputId": "8d1ab558-7e15-401d-93ca-0cfede3b744a"
+      },
+      "source": [
+        "df.head()"
+      ],
+      "execution_count": 29,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>이름</th>\n",
+              "      <th>그룹</th>\n",
+              "      <th>소속사</th>\n",
+              "      <th>성별</th>\n",
+              "      <th>생년월일</th>\n",
+              "      <th>키</th>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "      <th>국적</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>지민</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-10-13</td>\n",
+              "      <td>173.6</td>\n",
+              "      <td>A</td>\n",
+              "      <td>10523260</td>\n",
+              "      <td>대한민국</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>지드래곤</td>\n",
+              "      <td>빅뱅</td>\n",
+              "      <td>YG</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1988-08-18</td>\n",
+              "      <td>177.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>9916947</td>\n",
+              "      <td>대한민국</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>강다니엘</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>커넥트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1996-12-10</td>\n",
+              "      <td>180.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>8273745</td>\n",
+              "      <td>대한민국</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>뷔</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-12-30</td>\n",
+              "      <td>178.0</td>\n",
+              "      <td>AB</td>\n",
+              "      <td>8073501</td>\n",
+              "      <td>대한민국</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>화사</td>\n",
+              "      <td>마마무</td>\n",
+              "      <td>RBW</td>\n",
+              "      <td>여자</td>\n",
+              "      <td>1995-07-23</td>\n",
+              "      <td>162.1</td>\n",
+              "      <td>A</td>\n",
+              "      <td>7650928</td>\n",
+              "      <td>대한민국</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "     이름     그룹  소속사  성별        생년월일      키 혈액형   브랜드평판지수    국적\n",
+              "0    지민  방탄소년단  빅히트  남자  1995-10-13  173.6   A  10523260  대한민국\n",
+              "1  지드래곤     빅뱅   YG  남자  1988-08-18  177.0   A   9916947  대한민국\n",
+              "2  강다니엘    NaN  커넥트  남자  1996-12-10  180.0   A   8273745  대한민국\n",
+              "3     뷔  방탄소년단  빅히트  남자  1995-12-30  178.0  AB   8073501  대한민국\n",
+              "4    화사    마마무  RBW  여자  1995-07-23  162.1   A   7650928  대한민국"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 29
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "cWdGoo_thp3F"
+      },
+      "source": [
+        "전부 동일한 값이 추가 되면서, column도 추가됨"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "qK2bcVjnhpwd"
+      },
+      "source": [
+        "만약, 값을 변경하고 싶다면, loc 함수를 활용해서 변경해 줄 수 있음?"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "hwdKo4AofMMh"
+      },
+      "source": [
+        "df.loc[df['이름'] == '지드래곤','국적'] = 'korea'\n"
+      ],
+      "execution_count": 30,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "zI3wGgKcfMFv",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 197
+        },
+        "outputId": "b0e124c6-114c-4c65-a49d-4c693e3c5111"
+      },
+      "source": [
+        "df.head()"
+      ],
+      "execution_count": 31,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>이름</th>\n",
+              "      <th>그룹</th>\n",
+              "      <th>소속사</th>\n",
+              "      <th>성별</th>\n",
+              "      <th>생년월일</th>\n",
+              "      <th>키</th>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "      <th>국적</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>지민</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-10-13</td>\n",
+              "      <td>173.6</td>\n",
+              "      <td>A</td>\n",
+              "      <td>10523260</td>\n",
+              "      <td>대한민국</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>지드래곤</td>\n",
+              "      <td>빅뱅</td>\n",
+              "      <td>YG</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1988-08-18</td>\n",
+              "      <td>177.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>9916947</td>\n",
+              "      <td>korea</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>강다니엘</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>커넥트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1996-12-10</td>\n",
+              "      <td>180.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>8273745</td>\n",
+              "      <td>대한민국</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>뷔</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-12-30</td>\n",
+              "      <td>178.0</td>\n",
+              "      <td>AB</td>\n",
+              "      <td>8073501</td>\n",
+              "      <td>대한민국</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>화사</td>\n",
+              "      <td>마마무</td>\n",
+              "      <td>RBW</td>\n",
+              "      <td>여자</td>\n",
+              "      <td>1995-07-23</td>\n",
+              "      <td>162.1</td>\n",
+              "      <td>A</td>\n",
+              "      <td>7650928</td>\n",
+              "      <td>대한민국</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "     이름     그룹  소속사  성별        생년월일      키 혈액형   브랜드평판지수     국적\n",
+              "0    지민  방탄소년단  빅히트  남자  1995-10-13  173.6   A  10523260   대한민국\n",
+              "1  지드래곤     빅뱅   YG  남자  1988-08-18  177.0   A   9916947  korea\n",
+              "2  강다니엘    NaN  커넥트  남자  1996-12-10  180.0   A   8273745   대한민국\n",
+              "3     뷔  방탄소년단  빅히트  남자  1995-12-30  178.0  AB   8073501   대한민국\n",
+              "4    화사    마마무  RBW  여자  1995-07-23  162.1   A   7650928   대한민국"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 31
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "6wxsIUEsiMW_"
+      },
+      "source": [
+        "## 3. 통계값 다루기"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "xKuRiZ7xL7N7"
+      },
+      "source": [
+        "df = pd.read_csv('https://bit.ly/ds-korean-idol')"
+      ],
+      "execution_count": 33,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "eXIQtJuMMOjp",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 197
+        },
+        "outputId": "08050550-1f50-4f39-e942-f51aecead22a"
+      },
+      "source": [
+        "df.head()"
+      ],
+      "execution_count": 34,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>이름</th>\n",
+              "      <th>그룹</th>\n",
+              "      <th>소속사</th>\n",
+              "      <th>성별</th>\n",
+              "      <th>생년월일</th>\n",
+              "      <th>키</th>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>지민</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-10-13</td>\n",
+              "      <td>173.6</td>\n",
+              "      <td>A</td>\n",
+              "      <td>10523260</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>지드래곤</td>\n",
+              "      <td>빅뱅</td>\n",
+              "      <td>YG</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1988-08-18</td>\n",
+              "      <td>177.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>9916947</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>강다니엘</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>커넥트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1996-12-10</td>\n",
+              "      <td>180.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>8273745</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>뷔</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-12-30</td>\n",
+              "      <td>178.0</td>\n",
+              "      <td>AB</td>\n",
+              "      <td>8073501</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>화사</td>\n",
+              "      <td>마마무</td>\n",
+              "      <td>RBW</td>\n",
+              "      <td>여자</td>\n",
+              "      <td>1995-07-23</td>\n",
+              "      <td>162.1</td>\n",
+              "      <td>A</td>\n",
+              "      <td>7650928</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "     이름     그룹  소속사  성별        생년월일      키 혈액형   브랜드평판지수\n",
+              "0    지민  방탄소년단  빅히트  남자  1995-10-13  173.6   A  10523260\n",
+              "1  지드래곤     빅뱅   YG  남자  1988-08-18  177.0   A   9916947\n",
+              "2  강다니엘    NaN  커넥트  남자  1996-12-10  180.0   A   8273745\n",
+              "3     뷔  방탄소년단  빅히트  남자  1995-12-30  178.0  AB   8073501\n",
+              "4    화사    마마무  RBW  여자  1995-07-23  162.1   A   7650928"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 34
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "EK8esgUNMkda",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "c4447277-f1b7-4536-bf82-cccb15267ec0"
+      },
+      "source": [
+        "df.info()"
+      ],
+      "execution_count": 35,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "<class 'pandas.core.frame.DataFrame'>\n",
+            "RangeIndex: 15 entries, 0 to 14\n",
+            "Data columns (total 8 columns):\n",
+            " #   Column   Non-Null Count  Dtype  \n",
+            "---  ------   --------------  -----  \n",
+            " 0   이름       15 non-null     object \n",
+            " 1   그룹       14 non-null     object \n",
+            " 2   소속사      15 non-null     object \n",
+            " 3   성별       15 non-null     object \n",
+            " 4   생년월일     15 non-null     object \n",
+            " 5   키        13 non-null     float64\n",
+            " 6   혈액형      15 non-null     object \n",
+            " 7   브랜드평판지수  15 non-null     int64  \n",
+            "dtypes: float64(1), int64(1), object(6)\n",
+            "memory usage: 1.1+ KB\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "D7ZBkw4GM28R",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 287
+        },
+        "outputId": "760f607a-6ff0-4b08-a7d3-6a1f4e1d9f24"
+      },
+      "source": [
+        "df.describe()"
+      ],
+      "execution_count": 36,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>키</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>count</th>\n",
+              "      <td>13.000000</td>\n",
+              "      <td>1.500000e+01</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>mean</th>\n",
+              "      <td>175.792308</td>\n",
+              "      <td>5.655856e+06</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>std</th>\n",
+              "      <td>5.820576</td>\n",
+              "      <td>2.539068e+06</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>min</th>\n",
+              "      <td>162.100000</td>\n",
+              "      <td>2.925442e+06</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>25%</th>\n",
+              "      <td>174.000000</td>\n",
+              "      <td>3.712344e+06</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>50%</th>\n",
+              "      <td>177.000000</td>\n",
+              "      <td>4.668615e+06</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>75%</th>\n",
+              "      <td>179.200000</td>\n",
+              "      <td>7.862214e+06</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>max</th>\n",
+              "      <td>183.000000</td>\n",
+              "      <td>1.052326e+07</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "                키       브랜드평판지수\n",
+              "count   13.000000  1.500000e+01\n",
+              "mean   175.792308  5.655856e+06\n",
+              "std      5.820576  2.539068e+06\n",
+              "min    162.100000  2.925442e+06\n",
+              "25%    174.000000  3.712344e+06\n",
+              "50%    177.000000  4.668615e+06\n",
+              "75%    179.200000  7.862214e+06\n",
+              "max    183.000000  1.052326e+07"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 36
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "nJJYmC0iiXBQ"
+      },
+      "source": [
+        "### 3-1. min(최소값), max(최대값)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "8Z2jUrkGiXF_",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "7907b2e5-1314-42bb-904b-f726ca537753"
+      },
+      "source": [
+        "df['키'].min()\n"
+      ],
+      "execution_count": 37,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "162.1"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 37
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "dtWNwAREiXQ1",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "71b4a7f5-9179-4310-f694-2ebc1143c5ea"
+      },
+      "source": [
+        "df['키'].max()\n"
+      ],
+      "execution_count": 38,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "183.0"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 38
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "4rmemM--iXSG"
+      },
+      "source": [
+        "### 3-2. sum (합계), mean (평균)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "MxyCeyijP8ie",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "6e967a3b-f76a-4364-e9f1-1cb29a65d1fb"
+      },
+      "source": [
+        "df['키'].sum()\n"
+      ],
+      "execution_count": 39,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "2285.3"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 39
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "kDNPVpbsiXW-",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "dc07304d-a227-4a32-a910-5c632e6e9b77"
+      },
+      "source": [
+        "df['키'].mean()\n"
+      ],
+      "execution_count": 40,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "175.7923076923077"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 40
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "sm2egqSFNHKQ"
+      },
+      "source": [
+        "### 3-3. var, variance(분산) / std, standard deviation (표준 편차)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "kZNoa-hxNZxT"
+      },
+      "source": [
+        "* 분산과 표준편차는 데이터가 **평균으로부터 얼마나 떨어져 있는지 정도**\n",
+        "* 분산은 **(데이터 - 평균) ** 2 을 모두 합한 값** / n\n",
+        "* 표준편차는 **분산의 루트**"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "5Gb7DxkeNxMI"
+      },
+      "source": [
+        "import numpy as np"
+      ],
+      "execution_count": 41,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Soxiy1PVNqE5"
+      },
+      "source": [
+        "data_01 = np.array([1, 3, 5, 7, 9])\n",
+        "data_02 = np.array([3, 4, 5, 6, 7])"
+      ],
+      "execution_count": 42,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ro2C5CTxODLz",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "2a006fa5-5db0-444f-a19e-1b1248188085"
+      },
+      "source": [
+        "np.sqrt(((1-5)**2 + (3-5)**2 + (5-5)**2 + (7-5)**2 + (9-5)**2 ) / 5)"
+      ],
+      "execution_count": 43,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "2.8284271247461903"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 43
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "J4bDUkx1Npz1",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "98e92efd-0437-4dc9-abf2-1048c18e1190"
+      },
+      "source": [
+        "data_01.mean()"
+      ],
+      "execution_count": 44,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "5.0"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 44
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "pF19ky3oN7TT",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "ec9478ec-04f3-4488-cee2-8eb23d9c3a70"
+      },
+      "source": [
+        "data_02.mean()"
+      ],
+      "execution_count": 45,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "5.0"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 45
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "aL7mj6O4O1C6",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "77188243-48b5-4f41-d08b-1759945228b4"
+      },
+      "source": [
+        "data_01.var(), data_02.var()"
+      ],
+      "execution_count": 46,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(8.0, 2.0)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 46
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "i5wDFzM3O2zy",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "e3835f09-1efe-4c7b-92a3-b0b6f4510c1a"
+      },
+      "source": [
+        "np.sqrt(data_01.var()), np.sqrt(data_02.var())"
+      ],
+      "execution_count": 47,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(2.8284271247461903, 1.4142135623730951)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 47
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "QmX9zxNxN-w1",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "6b467bac-6508-430e-8e73-ff251df2d78c"
+      },
+      "source": [
+        "data_01.std(), data_02.std()"
+      ],
+      "execution_count": 48,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(2.8284271247461903, 1.4142135623730951)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 48
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "X3Bj4FATPDV7"
+      },
+      "source": [
+        "주로 표준편자 (std)를 많이 사용하며, **데이터가 평균으로부터 얼마나 퍼져있는지 정도를 나타내는 지표라고 이해**"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "bAvvUdFhPDNA",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "f2e50988-4394-483c-eee4-41662cc68f07"
+      },
+      "source": [
+        "df['키'].var()\n"
+      ],
+      "execution_count": 49,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "33.879102564102595"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 49
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "VS62iHleiXh0",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "ea82ca30-79be-40b0-aa3c-8dbba2aa0e85"
+      },
+      "source": [
+        "df['키'].std()\n"
+      ],
+      "execution_count": 50,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "5.820575793175672"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 50
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "wShdK-FwiXjw"
+      },
+      "source": [
+        "### 3-4. 갯수를 세는 count"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "VkbaDy-IiXcc",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "69bacf7b-0308-4cd3-f71f-df56b42b7f52"
+      },
+      "source": [
+        "df['키'].count()\n"
+      ],
+      "execution_count": 51,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "13"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 51
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "UoCL5mCaS15c"
+      },
+      "source": [
+        "### 3.5. 중앙값"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "xNCspptqOk0f",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "bc0de419-09ef-4332-8afb-5c6d3fe298ca"
+      },
+      "source": [
+        "df['키'].median()\n"
+      ],
+      "execution_count": 52,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "177.0"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 52
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "9q2AcpGZOqBM"
+      },
+      "source": [
+        "### 3.6. 최빈값 (mode)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "pFUyNNo2O891",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "f73ec073-f90f-4aae-f994-74a2ff9fce32"
+      },
+      "source": [
+        "df['키'].mode()\n"
+      ],
+      "execution_count": 53,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "0    178.0\n",
+              "dtype: float64"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 53
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "52cqG2daS1_8"
+      },
+      "source": [
+        "## 4. 피벗테이블 (pivot_table)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Ta89HeCUS1xa"
+      },
+      "source": [
+        "* 피벗테이블은 엑셀의 피벗테이블과 동일.\n",
+        "* 데이터 열 중에서 **두 개의 열을 각각 행 인덱스, 열 인덱스로 사용**하여 데이터를 조회하여 펼쳐놓은 것을 의미\n",
+        "* 왼쪽에 나타나는 인덱스를 **행 인덱스, 상단에 나타나는 인덱스를 열 인덱스**"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "JvOqxSxkQAty",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 197
+        },
+        "outputId": "07a470b6-f2c5-4945-c563-31439cedd11e"
+      },
+      "source": [
+        "df.head()"
+      ],
+      "execution_count": 54,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>이름</th>\n",
+              "      <th>그룹</th>\n",
+              "      <th>소속사</th>\n",
+              "      <th>성별</th>\n",
+              "      <th>생년월일</th>\n",
+              "      <th>키</th>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>지민</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-10-13</td>\n",
+              "      <td>173.6</td>\n",
+              "      <td>A</td>\n",
+              "      <td>10523260</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>지드래곤</td>\n",
+              "      <td>빅뱅</td>\n",
+              "      <td>YG</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1988-08-18</td>\n",
+              "      <td>177.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>9916947</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>강다니엘</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>커넥트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1996-12-10</td>\n",
+              "      <td>180.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>8273745</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>뷔</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-12-30</td>\n",
+              "      <td>178.0</td>\n",
+              "      <td>AB</td>\n",
+              "      <td>8073501</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>화사</td>\n",
+              "      <td>마마무</td>\n",
+              "      <td>RBW</td>\n",
+              "      <td>여자</td>\n",
+              "      <td>1995-07-23</td>\n",
+              "      <td>162.1</td>\n",
+              "      <td>A</td>\n",
+              "      <td>7650928</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "     이름     그룹  소속사  성별        생년월일      키 혈액형   브랜드평판지수\n",
+              "0    지민  방탄소년단  빅히트  남자  1995-10-13  173.6   A  10523260\n",
+              "1  지드래곤     빅뱅   YG  남자  1988-08-18  177.0   A   9916947\n",
+              "2  강다니엘    NaN  커넥트  남자  1996-12-10  180.0   A   8273745\n",
+              "3     뷔  방탄소년단  빅히트  남자  1995-12-30  178.0  AB   8073501\n",
+              "4    화사    마마무  RBW  여자  1995-07-23  162.1   A   7650928"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 54
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "rfQlvojRRao9",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 317
+        },
+        "outputId": "e2b90fae-12e8-4ad0-e526-7a3ad74f03eb"
+      },
+      "source": [
+        "pd.pivot_table(df, index='그룹',columns='성별', values='브랜드평판지수', aggfunc=np.mean)\n",
+        "#aggfunc 기본값은 평균"
+      ],
+      "execution_count": 55,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th>성별</th>\n",
+              "      <th>남자</th>\n",
+              "      <th>여자</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>그룹</th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>뉴이스트</th>\n",
+              "      <td>3.855194e+06</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>마마무</th>\n",
+              "      <td>NaN</td>\n",
+              "      <td>7650928.0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>방탄소년단</th>\n",
+              "      <td>6.260169e+06</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>빅뱅</th>\n",
+              "      <td>9.916947e+06</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>소녀시대</th>\n",
+              "      <td>NaN</td>\n",
+              "      <td>3918661.0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>아스트로</th>\n",
+              "      <td>3.506027e+06</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>아이들</th>\n",
+              "      <td>NaN</td>\n",
+              "      <td>4668615.0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>핫샷</th>\n",
+              "      <td>4.036489e+06</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "성별               남자         여자\n",
+              "그룹                            \n",
+              "뉴이스트   3.855194e+06        NaN\n",
+              "마마무             NaN  7650928.0\n",
+              "방탄소년단  6.260169e+06        NaN\n",
+              "빅뱅     9.916947e+06        NaN\n",
+              "소녀시대            NaN  3918661.0\n",
+              "아스트로   3.506027e+06        NaN\n",
+              "아이들             NaN  4668615.0\n",
+              "핫샷     4.036489e+06        NaN"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 55
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "_RSyhj7EQAvY"
+      },
+      "source": [
+        "## 5. GroupBy (그룹으로 묶어 보기)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "zPP5YmoYQQz2"
+      },
+      "source": [
+        "* groupby는 데이터를 **그룹으로 묶어 분석**할 때 \n",
+        "* **소속사**별 키의 평균, **성별** 키의 평균 등 특정, 그룹별 통계 및 데이터의 성질을 확인하고자 할 때 "
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "iQ2t7pDfQKxi",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 197
+        },
+        "outputId": "0143950f-8760-4d54-9241-dccab82dc1c4"
+      },
+      "source": [
+        "df.head()"
+      ],
+      "execution_count": 56,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>이름</th>\n",
+              "      <th>그룹</th>\n",
+              "      <th>소속사</th>\n",
+              "      <th>성별</th>\n",
+              "      <th>생년월일</th>\n",
+              "      <th>키</th>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>지민</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-10-13</td>\n",
+              "      <td>173.6</td>\n",
+              "      <td>A</td>\n",
+              "      <td>10523260</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>지드래곤</td>\n",
+              "      <td>빅뱅</td>\n",
+              "      <td>YG</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1988-08-18</td>\n",
+              "      <td>177.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>9916947</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>강다니엘</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>커넥트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1996-12-10</td>\n",
+              "      <td>180.0</td>\n",
+              "      <td>A</td>\n",
+              "      <td>8273745</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>뷔</td>\n",
+              "      <td>방탄소년단</td>\n",
+              "      <td>빅히트</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>1995-12-30</td>\n",
+              "      <td>178.0</td>\n",
+              "      <td>AB</td>\n",
+              "      <td>8073501</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>화사</td>\n",
+              "      <td>마마무</td>\n",
+              "      <td>RBW</td>\n",
+              "      <td>여자</td>\n",
+              "      <td>1995-07-23</td>\n",
+              "      <td>162.1</td>\n",
+              "      <td>A</td>\n",
+              "      <td>7650928</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "     이름     그룹  소속사  성별        생년월일      키 혈액형   브랜드평판지수\n",
+              "0    지민  방탄소년단  빅히트  남자  1995-10-13  173.6   A  10523260\n",
+              "1  지드래곤     빅뱅   YG  남자  1988-08-18  177.0   A   9916947\n",
+              "2  강다니엘    NaN  커넥트  남자  1996-12-10  180.0   A   8273745\n",
+              "3     뷔  방탄소년단  빅히트  남자  1995-12-30  178.0  AB   8073501\n",
+              "4    화사    마마무  RBW  여자  1995-07-23  162.1   A   7650928"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 56
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "vL1Hk258UZUu",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "50c0b6b8-a83e-49e8-ea51-305f95f47a41"
+      },
+      "source": [
+        "df.groupby('소속사')\n",
+        "#묶기만 한 상태"
+      ],
+      "execution_count": 58,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "<pandas.core.groupby.generic.DataFrameGroupBy object at 0x7f6704e7ab38>"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 58
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "96eL0Rd8Uc2e"
+      },
+      "source": [
+        "groupby와 함께 \n",
+        "\n",
+        "* count() - 갯수\n",
+        "* sum() - 합계\n",
+        "* mean() - 평균\n",
+        "* var() - 분산\n",
+        "* std() - 표준편차\n",
+        "* min()/max() - 최소값, 최대값\n",
+        "\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "QfXPD3bHQA1c",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 347
+        },
+        "outputId": "97a81cce-8cb7-4b9a-87fa-046407fd235c"
+      },
+      "source": [
+        "df.groupby('소속사').count()\n"
+      ],
+      "execution_count": 59,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>이름</th>\n",
+              "      <th>그룹</th>\n",
+              "      <th>성별</th>\n",
+              "      <th>생년월일</th>\n",
+              "      <th>키</th>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>소속사</th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>RBW</th>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>SM</th>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>0</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>YG</th>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>빅히트</th>\n",
+              "      <td>5</td>\n",
+              "      <td>5</td>\n",
+              "      <td>5</td>\n",
+              "      <td>5</td>\n",
+              "      <td>5</td>\n",
+              "      <td>5</td>\n",
+              "      <td>5</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>스타크루이엔티</th>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>커넥트</th>\n",
+              "      <td>1</td>\n",
+              "      <td>0</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>큐브</th>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>0</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>판타지오</th>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>플레디스</th>\n",
+              "      <td>3</td>\n",
+              "      <td>3</td>\n",
+              "      <td>3</td>\n",
+              "      <td>3</td>\n",
+              "      <td>3</td>\n",
+              "      <td>3</td>\n",
+              "      <td>3</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "         이름  그룹  성별  생년월일  키  혈액형  브랜드평판지수\n",
+              "소속사                                       \n",
+              "RBW       1   1   1     1  1    1        1\n",
+              "SM        1   1   1     1  0    1        1\n",
+              "YG        1   1   1     1  1    1        1\n",
+              "빅히트       5   5   5     5  5    5        5\n",
+              "스타크루이엔티   1   1   1     1  1    1        1\n",
+              "커넥트       1   0   1     1  1    1        1\n",
+              "큐브        1   1   1     1  0    1        1\n",
+              "판타지오      1   1   1     1  1    1        1\n",
+              "플레디스      3   3   3     3  3    3        3"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 59
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "8buEDB_EUT5k"
+      },
+      "source": [
+        "산술 통계는 자동으로 산술통계가 가능한 열만 출력"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "fs30XYJGQA-4",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 347
+        },
+        "outputId": "a79dc7c1-7221-4eca-d914-884c0b813b91"
+      },
+      "source": [
+        "df.groupby('소속사').mean()"
+      ],
+      "execution_count": 60,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>키</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>소속사</th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>RBW</th>\n",
+              "      <td>162.100000</td>\n",
+              "      <td>7.650928e+06</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>SM</th>\n",
+              "      <td>NaN</td>\n",
+              "      <td>3.918661e+06</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>YG</th>\n",
+              "      <td>177.000000</td>\n",
+              "      <td>9.916947e+06</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>빅히트</th>\n",
+              "      <td>176.560000</td>\n",
+              "      <td>6.260169e+06</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>스타크루이엔티</th>\n",
+              "      <td>167.100000</td>\n",
+              "      <td>4.036489e+06</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>커넥트</th>\n",
+              "      <td>180.000000</td>\n",
+              "      <td>8.273745e+06</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>큐브</th>\n",
+              "      <td>NaN</td>\n",
+              "      <td>4.668615e+06</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>판타지오</th>\n",
+              "      <td>183.000000</td>\n",
+              "      <td>3.506027e+06</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>플레디스</th>\n",
+              "      <td>177.766667</td>\n",
+              "      <td>3.855194e+06</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "                  키       브랜드평판지수\n",
+              "소속사                              \n",
+              "RBW      162.100000  7.650928e+06\n",
+              "SM              NaN  3.918661e+06\n",
+              "YG       177.000000  9.916947e+06\n",
+              "빅히트      176.560000  6.260169e+06\n",
+              "스타크루이엔티  167.100000  4.036489e+06\n",
+              "커넥트      180.000000  8.273745e+06\n",
+              "큐브              NaN  4.668615e+06\n",
+              "판타지오     183.000000  3.506027e+06\n",
+              "플레디스     177.766667  3.855194e+06"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 60
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "akiXofI3QAlE"
+      },
+      "source": [
+        "특정 열만 출력하고 싶다면?"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "6yxaNxKcTJ2C",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "eca9040d-6fef-4a98-f245-0036a2df0955"
+      },
+      "source": [
+        "df.groupby('소속사')['키'].mean()\n"
+      ],
+      "execution_count": 61,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "소속사\n",
+              "RBW        162.100000\n",
+              "SM                NaN\n",
+              "YG         177.000000\n",
+              "빅히트        176.560000\n",
+              "스타크루이엔티    167.100000\n",
+              "커넥트        180.000000\n",
+              "큐브                NaN\n",
+              "판타지오       183.000000\n",
+              "플레디스       177.766667\n",
+              "Name: 키, dtype: float64"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 61
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "784YxwLKVOHe"
+      },
+      "source": [
+        "## 6. Multi-Index(복합 인덱스)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "MF_RYOWqXCbP"
+      },
+      "source": [
+        "### 6-1. Multi-Index 적용"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "xtfezNZdVlPY"
+      },
+      "source": [
+        "행 인덱스를 복합적으로 구성하고 싶은 경우는 인덱스를 리스트로 만들어준다.\r\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "AdWWcFC2VOJW",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 257
+        },
+        "outputId": "6feb08d8-2cad-4768-8169-58ca6d33e9b6"
+      },
+      "source": [
+        "df.groupby(['혈액형', '성별']).mean()\n"
+      ],
+      "execution_count": 62,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th>키</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>성별</th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th rowspan=\"2\" valign=\"top\">A</th>\n",
+              "      <th>남자</th>\n",
+              "      <td>175.140</td>\n",
+              "      <td>7591755.20</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>여자</th>\n",
+              "      <td>162.100</td>\n",
+              "      <td>5784794.50</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>AB</th>\n",
+              "      <th>남자</th>\n",
+              "      <td>176.500</td>\n",
+              "      <td>5687577.50</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th rowspan=\"2\" valign=\"top\">B</th>\n",
+              "      <th>남자</th>\n",
+              "      <td>183.000</td>\n",
+              "      <td>3506027.00</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>여자</th>\n",
+              "      <td>NaN</td>\n",
+              "      <td>4668615.00</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>O</th>\n",
+              "      <th>남자</th>\n",
+              "      <td>177.875</td>\n",
+              "      <td>3939919.75</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "              키     브랜드평판지수\n",
+              "혈액형 성별                     \n",
+              "A   남자  175.140  7591755.20\n",
+              "    여자  162.100  5784794.50\n",
+              "AB  남자  176.500  5687577.50\n",
+              "B   남자  183.000  3506027.00\n",
+              "    여자      NaN  4668615.00\n",
+              "O   남자  177.875  3939919.75"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 62
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "mwNcI_uLW6in"
+      },
+      "source": [
+        "### 6-2. Multi-Index 데이터 프레임을 피벗 테이블로 변환"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "jvxspk5wWYyy"
+      },
+      "source": [
+        "Multi-Index로 된 데이터프레임을 피벗테이블 형태로 다시 변환해 줄 수 있다."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ja4_Byq4VOR0"
+      },
+      "source": [
+        "df2 = df.groupby(['혈액형', '성별']).mean()"
+      ],
+      "execution_count": 63,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "nUvs_JXdVOUy",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 257
+        },
+        "outputId": "60e3db8d-7eb1-4c60-de1e-f62316d45a9c"
+      },
+      "source": [
+        "df2"
+      ],
+      "execution_count": 64,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th>키</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>성별</th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th rowspan=\"2\" valign=\"top\">A</th>\n",
+              "      <th>남자</th>\n",
+              "      <td>175.140</td>\n",
+              "      <td>7591755.20</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>여자</th>\n",
+              "      <td>162.100</td>\n",
+              "      <td>5784794.50</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>AB</th>\n",
+              "      <th>남자</th>\n",
+              "      <td>176.500</td>\n",
+              "      <td>5687577.50</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th rowspan=\"2\" valign=\"top\">B</th>\n",
+              "      <th>남자</th>\n",
+              "      <td>183.000</td>\n",
+              "      <td>3506027.00</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>여자</th>\n",
+              "      <td>NaN</td>\n",
+              "      <td>4668615.00</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>O</th>\n",
+              "      <th>남자</th>\n",
+              "      <td>177.875</td>\n",
+              "      <td>3939919.75</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "              키     브랜드평판지수\n",
+              "혈액형 성별                     \n",
+              "A   남자  175.140  7591755.20\n",
+              "    여자  162.100  5784794.50\n",
+              "AB  남자  176.500  5687577.50\n",
+              "B   남자  183.000  3506027.00\n",
+              "    여자      NaN  4668615.00\n",
+              "O   남자  177.875  3939919.75"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 64
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "T6dCIfQOVOk3",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 167
+        },
+        "outputId": "36207ced-9660-4857-b613-e5e8365ac1e8"
+      },
+      "source": [
+        "df2.unstack('혈액형')\n"
+      ],
+      "execution_count": 65,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead tr th {\n",
+              "        text-align: left;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead tr:last-of-type th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr>\n",
+              "      <th></th>\n",
+              "      <th colspan=\"4\" halign=\"left\">키</th>\n",
+              "      <th colspan=\"4\" halign=\"left\">브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>A</th>\n",
+              "      <th>AB</th>\n",
+              "      <th>B</th>\n",
+              "      <th>O</th>\n",
+              "      <th>A</th>\n",
+              "      <th>AB</th>\n",
+              "      <th>B</th>\n",
+              "      <th>O</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>성별</th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>남자</th>\n",
+              "      <td>175.14</td>\n",
+              "      <td>176.5</td>\n",
+              "      <td>183.0</td>\n",
+              "      <td>177.875</td>\n",
+              "      <td>7591755.2</td>\n",
+              "      <td>5687577.5</td>\n",
+              "      <td>3506027.0</td>\n",
+              "      <td>3939919.75</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>여자</th>\n",
+              "      <td>162.10</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>5784794.5</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>4668615.0</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "          키                           브랜드평판지수                                  \n",
+              "혈액형       A     AB      B        O          A         AB          B           O\n",
+              "성별                                                                             \n",
+              "남자   175.14  176.5  183.0  177.875  7591755.2  5687577.5  3506027.0  3939919.75\n",
+              "여자   162.10    NaN    NaN      NaN  5784794.5        NaN  4668615.0         NaN"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 65
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "0gOzRrkHVObv",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 227
+        },
+        "outputId": "f244300a-463e-4c80-981b-f76902fc2529"
+      },
+      "source": [
+        "df2.unstack('성별')\n"
+      ],
+      "execution_count": 66,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead tr th {\n",
+              "        text-align: left;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead tr:last-of-type th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr>\n",
+              "      <th></th>\n",
+              "      <th colspan=\"2\" halign=\"left\">키</th>\n",
+              "      <th colspan=\"2\" halign=\"left\">브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>성별</th>\n",
+              "      <th>남자</th>\n",
+              "      <th>여자</th>\n",
+              "      <th>남자</th>\n",
+              "      <th>여자</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>혈액형</th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>A</th>\n",
+              "      <td>175.140</td>\n",
+              "      <td>162.1</td>\n",
+              "      <td>7591755.20</td>\n",
+              "      <td>5784794.5</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>AB</th>\n",
+              "      <td>176.500</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>5687577.50</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>B</th>\n",
+              "      <td>183.000</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>3506027.00</td>\n",
+              "      <td>4668615.0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>O</th>\n",
+              "      <td>177.875</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>3939919.75</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "           키            브랜드평판지수           \n",
+              "성별        남자     여자          남자         여자\n",
+              "혈액형                                       \n",
+              "A    175.140  162.1  7591755.20  5784794.5\n",
+              "AB   176.500    NaN  5687577.50        NaN\n",
+              "B    183.000    NaN  3506027.00  4668615.0\n",
+              "O    177.875    NaN  3939919.75        NaN"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 66
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "z0GukEDMW5D2"
+      },
+      "source": [
+        "### 6-3. 인덱스 초기화 (reset_index)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "9yyz_rawWrO0"
+      },
+      "source": [
+        "reset_index() 는 Multi-Index로 구성된 데이터 프레임의 **인덱스를 초기화**"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "KTAYxNIYUW4j",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 257
+        },
+        "outputId": "96b6a7e3-3092-46b6-d30b-32f8669d9f61"
+      },
+      "source": [
+        "df2"
+      ],
+      "execution_count": 67,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th>키</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>성별</th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th rowspan=\"2\" valign=\"top\">A</th>\n",
+              "      <th>남자</th>\n",
+              "      <td>175.140</td>\n",
+              "      <td>7591755.20</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>여자</th>\n",
+              "      <td>162.100</td>\n",
+              "      <td>5784794.50</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>AB</th>\n",
+              "      <th>남자</th>\n",
+              "      <td>176.500</td>\n",
+              "      <td>5687577.50</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th rowspan=\"2\" valign=\"top\">B</th>\n",
+              "      <th>남자</th>\n",
+              "      <td>183.000</td>\n",
+              "      <td>3506027.00</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>여자</th>\n",
+              "      <td>NaN</td>\n",
+              "      <td>4668615.00</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>O</th>\n",
+              "      <th>남자</th>\n",
+              "      <td>177.875</td>\n",
+              "      <td>3939919.75</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "              키     브랜드평판지수\n",
+              "혈액형 성별                     \n",
+              "A   남자  175.140  7591755.20\n",
+              "    여자  162.100  5784794.50\n",
+              "AB  남자  176.500  5687577.50\n",
+              "B   남자  183.000  3506027.00\n",
+              "    여자      NaN  4668615.00\n",
+              "O   남자  177.875  3939919.75"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 67
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "sVpEdDeqWmCq"
+      },
+      "source": [
+        "df2 = df2.reset_index() #groupby한 데이터 추후에 또 이용하고 싶을 때\n"
+      ],
+      "execution_count": 71,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "-S_8sHfdVNza",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 227
+        },
+        "outputId": "ffd5f188-351a-4841-9b22-4225189dff53"
+      },
+      "source": [
+        "df2"
+      ],
+      "execution_count": 70,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>혈액형</th>\n",
+              "      <th>성별</th>\n",
+              "      <th>키</th>\n",
+              "      <th>브랜드평판지수</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>A</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>175.140</td>\n",
+              "      <td>7591755.20</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>A</td>\n",
+              "      <td>여자</td>\n",
+              "      <td>162.100</td>\n",
+              "      <td>5784794.50</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>AB</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>176.500</td>\n",
+              "      <td>5687577.50</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>B</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>183.000</td>\n",
+              "      <td>3506027.00</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>B</td>\n",
+              "      <td>여자</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>4668615.00</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>5</th>\n",
+              "      <td>O</td>\n",
+              "      <td>남자</td>\n",
+              "      <td>177.875</td>\n",
+              "      <td>3939919.75</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "  혈액형  성별        키     브랜드평판지수\n",
+              "0   A  남자  175.140  7591755.20\n",
+              "1   A  여자  162.100  5784794.50\n",
+              "2  AB  남자  176.500  5687577.50\n",
+              "3   B  남자  183.000  3506027.00\n",
+              "4   B  여자      NaN  4668615.00\n",
+              "5   O  남자  177.875  3939919.75"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 70
+        }
+      ]
+    }
+  ]
+}
